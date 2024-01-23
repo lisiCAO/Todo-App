@@ -10,8 +10,8 @@ const NavBar: React.FC = () => {
   return (
     <nav className="bg-custom-nav text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/articles" className="text-xl font-bold">My Blog
-        </Link>
+        {auth?.isLoggedIn && <Link href="/todos" className="text-xl font-bold">My Todo List
+        </Link> }
         <div>
           {auth?.isLoggedIn ? (
             <>

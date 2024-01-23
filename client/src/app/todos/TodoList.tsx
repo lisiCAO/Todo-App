@@ -1,13 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-/**
- * id INT PK AI
-- ownerId INT FK linked to users table's id
-- task VC(100) NOT NULL
-- dueDate DATE NOT NULL
-- isDone INT NOT NULL
- */
+
 interface Todo {
     id: number;
     ownerId: number;

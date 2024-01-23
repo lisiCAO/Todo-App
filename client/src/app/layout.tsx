@@ -27,7 +27,7 @@ export default function RootLayout({
               {children}
             </main>
             <footer className="flex justify-center items-center h-24 bg-custom-gray">
-              <p className="text-custom-text">© 2024 - My Blog</p>
+              <p className="text-custom-text">© 2024 - Lisi Cao</p>
             </footer>
           </div>
         </body>

@@ -14,17 +14,17 @@ const LoginForm = () => {
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
+    let newError = '';
     if (name === 'email' && !/\S+@\S+\.\S+/.test(value)) {
-      setError('Please enter a valid email address.');
-      return;
+      newError = 'Please enter a valid email address.';
     }
-    
     if (name === 'password' && value.length < 6) {
-      setError('Password must be at least 6 characters long.');
-      return;
+      newError = 'Password must be at least 6 characters long.';
     }
+    setError(newError);
     setCredentials({ ...credentials, [name]: value });
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-custom-cream">
