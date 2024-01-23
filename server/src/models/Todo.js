@@ -6,10 +6,10 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
         },
         ownerId: {
-            type: DataTypes.STRING(320),
+            type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'User',
+                model: 'users',
                 key: 'id'
             }
         },
@@ -35,8 +35,8 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Todo.associate = (models) => {
-        Todo.belongsTo(models.User, { foreignKey: 'ownerId' });
+        Todo.belongsTo(models.user, { foreignKey: 'ownerId' });
     };
-    
+
     return Todo;
 };

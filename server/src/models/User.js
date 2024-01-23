@@ -6,21 +6,21 @@ module.exports = (sequelize, DataTypes) => {
           autoIncrement: true,
       },
       email: {
-          type: DataTypes.STRING(320),
+          type: DataTypes.STRING(100),
           allowNull: false,
           validate: { isEmail: true }
       },
       password: {
-          type: DataTypes.STRING(100),
+          type: DataTypes.STRING(51),
           allowNull: false,
-          validate: { len: [8, 100] }
+          validate: { len: [6, 50] }
       },
   }, {
       timestamps: false, 
   });
 
   User.associate = (models) => {
-        User.hasMany(models.Todo, { foreignKey: 'ownerId' });
+        User.hasMany(models.todo, { foreignKey: 'ownerId' });
     };
 
   return User;
