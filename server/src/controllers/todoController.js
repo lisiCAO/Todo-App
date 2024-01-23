@@ -3,13 +3,14 @@ const db = require('../models/index');
 exports.createTodo = async (req, res, next) => {
     try {
         const todo = await db.todo.create({
-            title: req.body.title,
-            description: req.body.description,
-            ownerId: req.user.userId
+            task: req.body.task,
+            dueDate: req.body.dueDate,
+            ownerId: req.user.userId,
+            isDone: req.body.isDone
         });
         return res.status(201).json(todo);
     } catch (error) {
-        next(error);
+        next(error); // Pass the error to the error handling middleware
     }
 };
 

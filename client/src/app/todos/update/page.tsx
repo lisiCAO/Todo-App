@@ -1,11 +1,36 @@
-'use client'
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useRouter } from 'next/router';
 
-const TodoForm = () => {
-  const [todo, setTodo] = useState({ isDone: 0, dueDate: new Date(), task: '', body: '' });
+const UpdateTodoForm = () => {
+  const [todo, setTodo] = useState({ id: '', isDone: 0, dueDate: new Date(), task: '', body: '' });
   const router = useRouter();
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchTodo = async () => {
+      try {
+        const { id } = router.query;
+        const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
+          credentials: 'include',
+        });
+        if (!res.ok) {
+          throw new Error('Server responded with an error!');
+        }
+        const data = await res.json();
+        setTodo({
+          id: data.id,
+          isDone: data.isDone,
+          dueDate: new Date(data.dueDate),
+          task: data.task,
+          body: data.body,
+        });
+      } catch (error: any) {
+        setError(error.message);
+      }
+    };
+
+    fetchTodo();
+  }, []);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
@@ -33,8 +58,8 @@ const TodoForm = () => {
     event.preventDefault();
     setError('');
     try {
-      const response = await fetch('http://localhost:3000/api/todos/add', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:3000/api/todos/${todo.id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -46,12 +71,13 @@ const TodoForm = () => {
         // redirect to todos list
         router.push('/todos');
       } else {
-        setError('Failed to create the todo.');
+        setError('Failed to update the todo.');
       }
     } catch (error) {
       setError('There was an error submitting the form.');
     }
   };
+
 
   return (
     <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -72,31 +98,18 @@ const TodoForm = () => {
         </select>
       </div>
       <div className="mb-6">
-        <label htmlFor="task" className="block text-gray-700 text-sm font-bold mb-2">
+        <label htmlFor="body" className="block text-gray-700 text-sm font-bold mb-2">
           Task
         </label>
         <textarea
-          id="task"
-          name="task"
+          id="body"
+          name="body"
           rows={4}
-          value={todo.task}
+          value={todo.body}
           onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
           required
           minLength={50}
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="dueDate" className="block text-gray-700 text-sm font-bold mb-2">
-          Due Date
-        </label>
-        <input
-          type="datetime-local"
-          id="dueDate"
-          name="dueDate"
-          value={todo.dueDate.toISOString().slice(0, 16)}
-          onChange={handleChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="flex items-center justify-between">
@@ -108,8 +121,8 @@ const TodoForm = () => {
         </button>
       </div>
     </form>
+    
   );
 };
 
-
-export default TodoForm;
+export default UpdateTodoForm;

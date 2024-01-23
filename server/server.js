@@ -21,7 +21,7 @@ todosRouter.get('/', todoController.getTodos);
 todosRouter.get('/:id', todoController.getTodo);
 todosRouter.put('/:id', todoController.updateTodo);
 todosRouter.delete('/:id', todoController.deleteTodo);
-todosRouter.post('/', todoController.createTodo);
+todosRouter.post('/add', todoController.createTodo);
 
 app.use('/api/todos', todosRouter);
 
