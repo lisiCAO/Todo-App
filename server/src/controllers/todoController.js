@@ -2,7 +2,7 @@ const db = require('../models/index');
 
 exports.createTodo = async (req, res, next) => {
     try {
-        const todo = await db.Todo.create({
+        const todo = await db.todo.create({
             title: req.body.title,
             description: req.body.description,
             ownerId: req.user.userId
@@ -15,7 +15,7 @@ exports.createTodo = async (req, res, next) => {
 
 exports.getTodos = async (req, res, next) => {
     try {
-        const todos = await db.Todo.findAll({ where: { ownerId: req.user.userId } });
+        const todos = await db.todo.findAll({ where: { ownerId: req.user.userId } });
         return res.status(200).json(todos);
     } catch (error) {
         next(error);
@@ -24,7 +24,7 @@ exports.getTodos = async (req, res, next) => {
 
 exports.getTodo = async (req, res, next) => {
     try {
-        const todo = await db.Todo.findOne({ where: { id: req.params.id, ownerId: req.user.userId } });
+        const todo = await db.todo.findOne({ where: { id: req.params.id, ownerId: req.user.userId } });
         if (!todo) {
             return res.status(404).json({ error: 'Todo not found' });
         }
@@ -36,7 +36,7 @@ exports.getTodo = async (req, res, next) => {
 
 exports.updateTodo = async (req, res, next) => {
     try {
-        const todo = await db.Todo.findOne({ where: { id: req.params.id, ownerId: req.user.userId } });
+        const todo = await db.todo.findOne({ where: { id: req.params.id, ownerId: req.user.userId } });
         if (!todo) {
             return res.status(404).json({ error: 'Todo not found' });
         }
@@ -49,7 +49,7 @@ exports.updateTodo = async (req, res, next) => {
 
 exports.deleteTodo = async (req, res, next) => {
     try {
-        const todo = await db.Todo.findOne({ where: { id: req.params.id, ownerId: req.user.userId } });
+        const todo = await db.todo.findOne({ where: { id: req.params.id, ownerId: req.user.userId } });
         if (!todo) {
             return res.status(404).json({ error: 'Todo not found' });
         }

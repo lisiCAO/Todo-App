@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); 
-const { db } = require('../models/index');
+const db = require('./../models/index');
 
 exports.getMe = async (req, res, next) => {
     try {
@@ -13,7 +13,7 @@ exports.getMe = async (req, res, next) => {
         }
         return res.status(200).send({ user: user });
     } catch (error) {
-        next(error);
+        res.status(500).send('Error retrieving user' + error);
     }
 };
 
@@ -28,12 +28,11 @@ exports.register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
         const user = await db.user.create({
-            name: req.body.name,
             email: req.body.email,
             password: hashedPassword
         });
 
-        if (!user.name || !user.email || !user.password) {
+        if (!user.email || !user.password) {
             return res.status(400).json({ error: 'Please fill out all fields' });
         }
 
@@ -58,7 +57,7 @@ exports.login = async (req, res) => {
             res.status(400).send('Invalid credentials');
         }
     } catch (error) {
-        res.status(500).send('Error logging in user');
+        res.status(500).send('Error logging in user' + error);
     }
 };
 

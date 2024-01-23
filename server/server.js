@@ -1,18 +1,18 @@
 const express = require('express');
 const cors  = require('cors');
-const db = require('./src//models/index');
 const cookieParser = require('cookie-parser');
 const authenticateToken = require('./src/middleware/authenticateToken');
 const authController = require('./src/controllers/authController');
 const todoController = require('./src/controllers/todoController');
 const app = express();
+const dotenv = require('dotenv');
+dotenv.config();
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
     origin: 'http://localhost' ,
     credentials: true,
 }));
-
 
 const todosRouter = express.Router();
 todosRouter.use(authenticateToken);
