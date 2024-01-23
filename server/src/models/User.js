@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
       id: {
           type: DataTypes.INTEGER,
           primaryKey: true,
-          autoIncrement: true
+          autoIncrement: true,
       },
       email: {
           type: DataTypes.STRING(320),
@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
       timestamps: false, 
   });
+
+  User.associate = (models) => {
+        User.hasMany(models.Todo, { foreignKey: 'ownerId' });
+    };
 
   return User;
 };

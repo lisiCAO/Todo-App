@@ -3,11 +3,15 @@ module.exports = (sequelize, DataTypes) => {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
         },
         ownerId: {
             type: DataTypes.STRING(320),
             allowNull: false,
+            references: {
+                model: 'User',
+                key: 'id'
+            }
         },
         task: {
             type: DataTypes.STRING(100),
@@ -29,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         timestamps: false, 
     });
-  
+
+    Todo.associate = (models) => {
+        Todo.belongsTo(models.User, { foreignKey: 'ownerId' });
+    };
+    
     return Todo;
 };
