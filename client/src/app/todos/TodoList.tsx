@@ -17,7 +17,9 @@ const TodoList = () => {
     useEffect(() => {
         const fetchTodos = async () => {
             try{
-                const res = await fetch('http://localhost:3000/api/todos');
+                const res = await fetch('http://localhost:3000/api/todos', {
+                    credentials: 'include',
+                });
             if(!res.ok) {
                 throw new Error('Server responded with an error!');
             }

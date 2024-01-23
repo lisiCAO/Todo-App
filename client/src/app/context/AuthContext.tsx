@@ -19,7 +19,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
   // Check if user is logged in
   useEffect(() => {
     const checkLogin = async () => {
-      const response = await fetch('http://localhost:3000/api/users/me', { credentials: 'include' });
+      const response = await fetch('http://localhost:3000/api/me', { credentials: 'include' });
       const data = await response.json();
       if (data.user) {
         const { email } = data.user;
@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
 
   const login = async (credentials: { email: string; password: string }) => {
     try {
-      const response = await fetch('http://localhost:3000/api/users/login', {
+      const response = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
   
   // Dummy log in/out functionality
   const logOut = async () => {
-    await fetch('http://localhost:3000/api/users/logout', { method: 'POST', credentials: 'include' });
+    await fetch('http://localhost:3000/api/logout', { method: 'POST', credentials: 'include' });
     setUserName(null);
     setisLoggedIn(false);
     router.push('/todos');
